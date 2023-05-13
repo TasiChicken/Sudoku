@@ -1,0 +1,8 @@
+Menu
+Play
+Functions
+Easy
+Normal
+Hard
+Setting
+Sudokus

@@ -1,0 +1,9 @@
+Menu
+Play
+Functions
+Easy
+Normal
+Hard
+Setting
+Puzzles
+Records
