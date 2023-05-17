@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Text.Json;
 using System.Collections.Generic;
+using System;
 
 namespace Sudoku
 {
@@ -33,7 +34,7 @@ namespace Sudoku
 
         private static string getLocation(int index)
         {
-            return Application.StartupPath + @"\Savefiles\" + filename[index];
+            return Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Sudoku\" + filename[index];
         }
 
         #endregion

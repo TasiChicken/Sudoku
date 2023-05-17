@@ -37,6 +37,7 @@ namespace Sudoku
                     button.Top = margin * (i + 1) + sizeValue * i;
                     button.Click += Button_Click;
                     button.KeyPress += Button_KeyPress;
+                    button.KeyDown += Button_KeyDown;
                     button.Parent = this;
                 }
 
@@ -48,13 +49,21 @@ namespace Sudoku
             button.Top = margin * 4 + sizeValue * 3;
             button.Name = "0";
             button.Click += Button_Click;
+            button.KeyDown += Button_KeyDown;
             button.KeyPress += Button_KeyPress;
             button.Parent = this;
+        }
+
+        private void Button_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete || e.KeyCode == Keys.Back)
+                displayPanel.SetGrid(0);
         }
 
         private void Button_KeyPress(object sender, KeyPressEventArgs e)
         {
             int value = e.KeyChar - '0';
+
             if (value < 0 || value > 9) return;
 
             displayPanel.SetGrid(value);

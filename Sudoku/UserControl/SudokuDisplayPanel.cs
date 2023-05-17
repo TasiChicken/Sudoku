@@ -27,6 +27,10 @@ namespace Sudoku
         {
             InitializeComponent();
 
+            origin = new int[9][];
+            for (int i = 0; i < 9; i++)
+                origin[i] = new int[9];
+
             int gridSize = (this.Width - margin * 12) / 9;
             Size size = new Size(gridSize, gridSize);
 
@@ -42,12 +46,19 @@ namespace Sudoku
                     grids[i][j].Name = "" + i + j;
                     grids[i][j].Click += Grid_Click;
                     grids[i][j].KeyPress += Grid_KeyPress;
+                    grids[i][j].KeyDown += Grid_KeyDown;
                     grids[i][j].Parent = this;
                     grids[i][j].Size = size;
                     grids[i][j].Left = margin * (i / 3 + i + 1) + gridSize * i;
                     grids[i][j].Top = margin * (j / 3 + j + 1) + gridSize * j;
                 }
             }
+        }
+
+        private void Grid_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete || e.KeyCode == Keys.Back)
+                SetGrid(0);
         }
 
         private void Grid_KeyPress(object sender, KeyPressEventArgs e)
@@ -59,6 +70,7 @@ namespace Sudoku
         }
 
         private int[][] sudoku;
+        private int[][] origin;
         private Button[][] grids;
         private const int margin = 3;
 
@@ -84,6 +96,11 @@ namespace Sudoku
         public void DisplaySudoku(int[][] sudoku)
         {
             this.sudoku = sudoku;
+
+            for (int i = 0; i < 9; i++)
+                for (int j = 0; j < 9; j++)
+                    origin[i][j] = sudoku[i][j];
+
             for (int i = 0; i < 9; i++)
                 for (int j = 0; j < 9; j++)
                     grids[i][j].Text = sudoku[i][j] == 0 ? "" : sudoku[i][j].ToString();
@@ -93,7 +110,7 @@ namespace Sudoku
         {
             for (int i = 0; i < 9; i++)
                 for (int j = 0; j < 9; j++)
-                    if (sudoku[i][j] != 0)
+                    if (origin[i][j] != 0)
                     {
                         grids[i][j].BackColor = Color.LightGoldenrodYellow;
                         grids[i][j].Enabled = false;
@@ -105,6 +122,8 @@ namespace Sudoku
             for (int i = 0; i < 9; i++)
                 for (int j = 0; j < 9; j++)
                     grids[i][j].BackColor = Color.White;
+
+            Lock();
 
             bool notRepeat = true;
 
